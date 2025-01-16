@@ -18,7 +18,7 @@ public class Item : MonoBehaviour
     SpriteRenderer sprite_renderer;
     Collider2D collider2d;
     bool bIsMousePressed, bIsDropable;
-    Vector3 start_location;
+    Vector3 start_location, awake_location;
 
     GameObject GODroped, GOCooked, GOSlot;
 
@@ -33,6 +33,7 @@ public class Item : MonoBehaviour
 
     void Awake()
     {
+        awake_location = gameObject.transform.position;
         sprite_renderer = GetComponent<SpriteRenderer>();
         collider2d = GetComponent<Collider2D>();
         transform.tag = "Item";
@@ -63,18 +64,24 @@ public class Item : MonoBehaviour
 
     void OnMouseDrag()
     {
-        //transform.parent = GameManager.CHEF_CONTROLLER.scenes[0].transform;
         transform.position = MouseWorldPosition();
     }
 
     void OnMouseUp()
     {
         bIsMousePressed = false;
-
+        
         if (IInventory != null)
         {
             IInventory.IClose_Inventory();
             IInventory = null;
+        }
+
+        if (start_location == awake_location && (GOSlot != null || GOCooked != null || GODroped != null))
+        {
+            GameObject dup = Instantiate(this.gameObject);
+            dup.GetComponent<Item>().awake_location = start_location;
+            dup.transform.position = start_location;
         }
 
         if (ISlotPlating != null && GOSlot != null)
