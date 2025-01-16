@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 interface IInterfaceInventory
 {
@@ -31,12 +32,12 @@ public class Inventory : MonoBehaviour, IInterfaceInventory
 
     public void IClose_Inventory()
     {
-        rect_transform.position = close_location;
+        rect_transform.DOAnchorPos(close_location, 1);
     }
 
     public void IOpen_Inventory()
     {
-        rect_transform.position = open_location;
+        rect_transform.DOAnchorPos(open_location, 1);
     }
 
     public bool IGetCondition()

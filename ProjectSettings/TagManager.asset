@@ -8,6 +8,8 @@ TagManager:
   - Item
   - Inventory
   - Untouchable
+  - Cooked
+  - Cook
   layers:
   - Default
   - TransparentFX
