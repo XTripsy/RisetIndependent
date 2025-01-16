@@ -32,12 +32,12 @@ public class Inventory : MonoBehaviour, IInterfaceInventory
 
     public void IClose_Inventory()
     {
-        rect_transform.DOAnchorPos(close_location, 1);
+        rect_transform.DOAnchorPos(close_location, .4f);
     }
 
     public void IOpen_Inventory()
     {
-        rect_transform.DOAnchorPos(open_location, 1);
+        rect_transform.DOAnchorPos(open_location, .4f);
     }
 
     public bool IGetCondition()

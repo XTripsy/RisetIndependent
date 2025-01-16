@@ -10,14 +10,15 @@ TagManager:
   - Untouchable
   - Cooked
   - Cook
+  - Slot
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Background
   - Water
   - UI
-  - 
+  - Item
   - 
   - 
   - 
@@ -52,6 +53,9 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 2612700483
+    locked: 0
+  - name: Frontground
+    uniqueID: 1672051463
     locked: 0
   - name: Default
     uniqueID: 0

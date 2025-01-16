@@ -4,6 +4,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
+public enum eCategory
+{
+    Pokok,
+    Lauk,
+    Buah,
+    Sayur,
+    Soup
+}
+
 public class Item : MonoBehaviour
 {
     SpriteRenderer sprite_renderer;
@@ -11,13 +20,16 @@ public class Item : MonoBehaviour
     bool bIsMousePressed, bIsDropable;
     Vector3 start_location;
 
-    GameObject GODroped, GOCooked;
+    GameObject GODroped, GOCooked, GOSlot;
 
     IInterfaceInventory IInventory;
+    IInterfaceSlotPlating ISlotPlating;
 
     int index_cooked;
     Tween tween_cooked, tween_display;
     Color item_color;
+
+    public eCategory eCurrentCategory;
 
     void Awake()
     {
@@ -51,18 +63,26 @@ public class Item : MonoBehaviour
 
     void OnMouseDrag()
     {
-        transform.parent = GameManager.CHEF_CONTROLLER.scenes[0].transform;
+        //transform.parent = GameManager.CHEF_CONTROLLER.scenes[0].transform;
         transform.position = MouseWorldPosition();
     }
 
     void OnMouseUp()
     {
         bIsMousePressed = false;
+
         if (IInventory != null)
         {
             IInventory.IClose_Inventory();
             IInventory = null;
         }
+
+        if (ISlotPlating != null && GOSlot != null)
+        {
+            transform.position = (ISlotPlating.IGetCategory() == eCurrentCategory) ? GOSlot.transform.position : start_location;
+            transform.parent = GOSlot.transform.parent;
+            return;
+        }    
 
         if (GOCooked != null)
         {
@@ -79,7 +99,6 @@ public class Item : MonoBehaviour
         }
 
         transform.position = start_location;
-
     }
 
     Vector3 MouseWorldPosition()
@@ -108,6 +127,12 @@ public class Item : MonoBehaviour
                 IInventory.IOpen_Inventory();
         }
 
+        if (other.gameObject.tag == "Slot")
+        {
+            ISlotPlating = other.gameObject.GetComponent<IInterfaceSlotPlating>() as IInterfaceSlotPlating;
+            GOSlot = other.gameObject;
+        }
+
         if (other.gameObject.tag == "Droped")
             GODroped = other.gameObject;
 
@@ -117,6 +142,9 @@ public class Item : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        if (other.gameObject.tag == "Slot")
+            GOSlot = other.gameObject;
+
         if (other.gameObject.tag == "Droped")
             GODroped = other.gameObject;
 
@@ -133,6 +161,9 @@ public class Item : MonoBehaviour
             if (IInventory != null)
                 IInventory.IClose_Inventory();
         }
+
+        if (other.gameObject.tag == "Slot")
+            GOSlot = null;
 
         if (other.gameObject.tag == "Untouchable" || other.gameObject.tag == "Droped")
         {
