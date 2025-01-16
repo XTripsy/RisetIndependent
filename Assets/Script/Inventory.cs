@@ -13,6 +13,9 @@ interface IInterfaceInventory
 public class Inventory : MonoBehaviour, IInterfaceInventory
 {
     public Vector2 open_location;
+
+    [SerializeField]
+    GameObject[] slots;
     Vector2 close_location;
     RectTransform rect_transform;
 
@@ -32,12 +35,30 @@ public class Inventory : MonoBehaviour, IInterfaceInventory
 
     public void IClose_Inventory()
     {
-        rect_transform.DOAnchorPos(close_location, .4f);
+        for (int i = 0; i < slots.Length; i++)
+        {
+            slots[i].GetComponent<Collider2D>().enabled = false;    
+        }
+
+        rect_transform.DOAnchorPos(close_location, .4f).OnComplete(CompleteTween);
     }
 
     public void IOpen_Inventory()
     {
-        rect_transform.DOAnchorPos(open_location, .4f);
+        for (int i = 0; i < slots.Length; i++)
+        {
+            slots[i].GetComponent<Collider2D>().enabled = false;
+        }
+
+        rect_transform.DOAnchorPos(open_location, .4f).OnComplete(CompleteTween);
+    }
+
+    void CompleteTween()
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            slots[i].GetComponent<Collider2D>().enabled = true;
+        }
     }
 
     public bool IGetCondition()

@@ -11,6 +11,8 @@ TagManager:
   - Cooked
   - Cook
   - Slot
+  - Unslot
+  - TrashBin
   layers:
   - Default
   - TransparentFX

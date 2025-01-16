@@ -7,7 +7,7 @@ using UnityEngine;
 public class ChefController : MonoBehaviour
 {
     int index_scene;
-    public GameObject item_holder;
+    public GameObject item_holder, trash_bin;
     public List<GameObject> scenes;
     public List<TextMeshProUGUI> button_text;
     public TextMeshProUGUI title;
