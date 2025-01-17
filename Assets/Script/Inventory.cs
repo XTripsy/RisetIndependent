@@ -18,6 +18,7 @@ public class Inventory : MonoBehaviour, IInterfaceInventory
     GameObject[] slots;
     Vector2 close_location;
     RectTransform rect_transform;
+    Tween tween;
 
     private void Awake()
     {
@@ -33,24 +34,40 @@ public class Inventory : MonoBehaviour, IInterfaceInventory
             IClose_Inventory();
     }
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Food")
+            IOpen_Inventory();
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "Food")
+            IClose_Inventory();
+    }
+
     public void IClose_Inventory()
     {
+        tween.Kill();
+
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i].GetComponent<Collider2D>().enabled = false;    
         }
 
-        rect_transform.DOAnchorPos(close_location, .4f).OnComplete(CompleteTween);
+        tween = rect_transform.DOAnchorPos(close_location, .4f).OnComplete(CompleteTween);
     }
 
     public void IOpen_Inventory()
     {
+        tween.Kill();
+
         for (int i = 0; i < slots.Length; i++)
         {
             slots[i].GetComponent<Collider2D>().enabled = false;
         }
 
-        rect_transform.DOAnchorPos(open_location, .4f).OnComplete(CompleteTween);
+        tween = rect_transform.DOAnchorPos(open_location, .4f).OnComplete(CompleteTween);
     }
 
     void CompleteTween()

@@ -42,6 +42,9 @@ public class Item : MonoBehaviour
 
     private void Update()
     {
+        if (IInventory != null)
+            Debug.LogWarning("TAII");
+
         if (GODroped != null && !bIsMousePressed)
         {
             collider2d.isTrigger = false;
@@ -56,7 +59,7 @@ public class Item : MonoBehaviour
         collider2d.isTrigger = true;
         bIsMousePressed = true;
         start_location = transform.position;
-        GameManager.CHEF_CONTROLLER.trash_bin.transform.DOMoveY(-3.8f, 1);
+        GameManager.CHEF_CONTROLLER.trash_bin.transform.DOMoveY(-3.8f, .3f);
 
         /*if (tween_cooked != null && tween_cooked.IsPlaying())
         {
@@ -72,11 +75,13 @@ public class Item : MonoBehaviour
 
     void OnMouseUp()
     {
-        GameManager.CHEF_CONTROLLER.trash_bin.transform.DOMoveY(-6.5f, 1);
+        collider2d.isTrigger = false;
+
+        GameManager.CHEF_CONTROLLER.trash_bin.transform.DOMoveY(-6.5f, .3f);
 
         if (bIsRemove)
         {
-            Duplicate();
+            Duplicate(1);
             Destroy(transform.gameObject);
         }
 
@@ -84,11 +89,12 @@ public class Item : MonoBehaviour
         
         if (IInventory != null)
         {
+            Debug.Log("KONTOL");
             IInventory.IClose_Inventory();
-            IInventory = null;
+            //IInventory = null;
         }
 
-        Duplicate();
+        Duplicate(0);
 
         if (ISlotPlating != null && GOSlot != null)
         {
@@ -115,16 +121,39 @@ public class Item : MonoBehaviour
         transform.position = start_location;
     }
 
-    void Duplicate()
+    void Duplicate(int value)
     {
-        if (start_location == awake_location && (GOSlot != null /*|| GOCooked != null*/ || GODroped != null))
+        if (GOSlot == null && GODroped == null)
         {
             GameObject dup = Instantiate(this.gameObject);
-            dup.GetComponent<Item>().awake_location = start_location;
+            dup.GetComponent<Item>().awake_location = awake_location;
             dup.GetComponent<Item>().eCurrentCategory = eCurrentCategory;
-            dup.transform.position = start_location;
+            dup.transform.position = awake_location;
             dup.transform.parent = transform.parent;
         }
+
+        /*GameObject dup;
+
+        switch (value)
+        {
+            case 0:
+                if (start_location == awake_location && (GOSlot != null *//*|| GOCooked != null*//* || GODroped != null))
+                {
+                    dup = Instantiate(this.gameObject);
+                    dup.GetComponent<Item>().awake_location = start_location;
+                    dup.GetComponent<Item>().eCurrentCategory = eCurrentCategory;
+                    dup.transform.position = start_location;
+                    dup.transform.parent = transform.parent;
+                }
+                break;
+            case 1:
+                dup = Instantiate(this.gameObject);
+                dup.GetComponent<Item>().awake_location = start_location;
+                dup.GetComponent<Item>().eCurrentCategory = eCurrentCategory;
+                dup.transform.position = start_location;
+                dup.transform.parent = transform.parent;
+                break;
+        }*/
     }
 
     Vector3 MouseWorldPosition()
@@ -145,20 +174,20 @@ public class Item : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Inventory" /*&& index_cooked > 0*/)
+        /*if (other.gameObject.tag == "Inventory" *//*&& index_cooked > 0*//*)
         {
             IInventory = other.gameObject.GetComponent<IInterfaceInventory>() as IInterfaceInventory;
 
             if (IInventory != null)
                 IInventory.IOpen_Inventory();
-        }
-        else
+        }*/
+        /*else
         {
             IInventory = other.gameObject.GetComponent<IInterfaceInventory>() as IInterfaceInventory;
 
             if (IInventory != null)
                 IInventory.IClose_Inventory();
-        }
+        }*/
 
         if (other.gameObject.tag == "Slot")
         {
@@ -193,13 +222,8 @@ public class Item : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Inventory")
-        {
-            IInventory = other.gameObject.GetComponent<IInterfaceInventory>() as IInterfaceInventory;
-
-            if (IInventory != null)
-                IInventory.IClose_Inventory();
-        }
+        if (other.gameObject.tag == "Inventory" && IInventory != null)
+            IInventory.IClose_Inventory();
 
         if (other.gameObject.tag == "Slot" || other.gameObject.tag == "Unslot")
         {
@@ -207,7 +231,7 @@ public class Item : MonoBehaviour
             other.gameObject.tag = "Slot";
         }
 
-        if (other.gameObject.tag == "Untouchable" || other.gameObject.tag == "Droped")
+        if (other.gameObject.tag == "Untouchable")// || other.gameObject.tag == "Droped")
         {
             GODroped = null;
             other.gameObject.tag = "Droped";

@@ -13,6 +13,8 @@ TagManager:
   - Slot
   - Unslot
   - TrashBin
+  - Ingredient
+  - Food
   layers:
   - Default
   - TransparentFX
