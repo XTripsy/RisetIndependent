@@ -304,7 +304,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 134471199}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: GrillHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +320,7 @@ Transform:
   m_GameObject: {fileID: 134471198}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -339,7 +339,7 @@ GameObject:
   - component: {fileID: 147577722}
   - component: {fileID: 147577723}
   m_Layer: 5
-  m_Name: Circle_1
+  m_Name: Slot_1
   m_TagString: Droped
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -659,8 +659,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22eb6f364ed4b14d9cc9adc34038eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item_holder: {fileID: 1425082812}
-  trash_bin: {fileID: 1161582342}
+  item_holder: {fileID: 1425082813}
+  trash_bin: {fileID: 1161582343}
   scenes:
   - {fileID: 1940856332}
   - {fileID: 835978831}
@@ -682,7 +682,7 @@ GameObject:
   - component: {fileID: 261677481}
   - component: {fileID: 261677482}
   - component: {fileID: 261677483}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Grill
   m_TagString: Cook
   m_Icon: {fileID: 0}
@@ -840,11 +840,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486f152ef5da3414c8c3680b47139dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  base_menu: {fileID: 7568703476372675904, guid: 6be74237aca5de744a71c65d420dd459, type: 3}
+  menus:
+  - {fileID: 21300000, guid: 61ac40b257b3a994f841856ad38b2b6b, type: 3}
+  - {fileID: 21300000, guid: 0167a2d235421ca4f8095daaa1defd4f, type: 3}
   current_cooking_type: 1
   layer_mask:
     serializedVersion: 2
     m_Bits: 64
-  holder: {fileID: 134471198}
+  holder: {fileID: 134471199}
+  locations:
+  - {x: -6, y: 0, z: 0}
+  - {x: -6.3, y: 0, z: 0}
+  - {x: -5.7, y: 0, z: 0}
+  - {x: -6, y: 0.3, z: 0}
+  - {x: -6, y: -0.3, z: 0}
+  has_locations: []
 --- !u!1 &368806352
 GameObject:
   m_ObjectHideFlags: 0
@@ -979,6 +990,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current_ingredient_type: 4
+  awake_parent: {fileID: 0}
+  current_parent: {fileID: 0}
 --- !u!1 &396208631
 GameObject:
   m_ObjectHideFlags: 0
@@ -988,7 +1001,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 396208632}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FryHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1004,7 +1017,7 @@ Transform:
   m_GameObject: {fileID: 396208631}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6, y: 2.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1864,7 +1877,7 @@ GameObject:
   - component: {fileID: 648519003}
   - component: {fileID: 648519004}
   m_Layer: 5
-  m_Name: Circle_3
+  m_Name: Slot_3
   m_TagString: Droped
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2313,6 +2326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current_ingredient_type: 3
+  awake_parent: {fileID: 0}
+  current_parent: {fileID: 0}
 --- !u!1 &1133064056
 GameObject:
   m_ObjectHideFlags: 0
@@ -2409,6 +2424,7 @@ GameObject:
   - component: {fileID: 1161582344}
   - component: {fileID: 1161582346}
   - component: {fileID: 1161582345}
+  - component: {fileID: 1161582347}
   m_Layer: 0
   m_Name: TrashBin
   m_TagString: TrashBin
@@ -2556,6 +2572,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.4762573, y: 1.6802905}
   m_EdgeRadius: 0
+--- !u!114 &1161582347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1161582342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85d42a40e43cbcf4891cf26c5ccb6138, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1183316722
 GameObject:
   m_ObjectHideFlags: 0
@@ -2741,7 +2769,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1213862356}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BoilHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2757,7 +2785,7 @@ Transform:
   m_GameObject: {fileID: 1213862355}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -6, y: -2.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2897,6 +2925,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current_ingredient_type: 5
+  awake_parent: {fileID: 0}
+  current_parent: {fileID: 0}
 --- !u!1 &1358790209
 GameObject:
   m_ObjectHideFlags: 0
@@ -3082,7 +3112,7 @@ GameObject:
   - component: {fileID: 1367543562}
   - component: {fileID: 1367543563}
   - component: {fileID: 1367543564}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fry
   m_TagString: Cook
   m_Icon: {fileID: 0}
@@ -3240,11 +3270,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486f152ef5da3414c8c3680b47139dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  base_menu: {fileID: 7568703476372675904, guid: 6be74237aca5de744a71c65d420dd459, type: 3}
+  menus:
+  - {fileID: 21300000, guid: 61ac40b257b3a994f841856ad38b2b6b, type: 3}
+  - {fileID: 21300000, guid: 0167a2d235421ca4f8095daaa1defd4f, type: 3}
   current_cooking_type: 0
   layer_mask:
     serializedVersion: 2
     m_Bits: 64
-  holder: {fileID: 396208631}
+  holder: {fileID: 396208632}
+  locations:
+  - {x: -6, y: 2.2, z: 0}
+  - {x: -6.3, y: 2.2, z: 0}
+  - {x: -5.7, y: 2.2, z: 0}
+  - {x: -6, y: 2.5, z: 0}
+  - {x: -6, y: 1.9, z: 0}
+  has_locations: []
 --- !u!1 &1385356188
 GameObject:
   m_ObjectHideFlags: 0
@@ -4151,6 +4192,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current_ingredient_type: 2
+  awake_parent: {fileID: 0}
+  current_parent: {fileID: 0}
 --- !u!1 &1910816482
 GameObject:
   m_ObjectHideFlags: 0
@@ -4164,7 +4207,7 @@ GameObject:
   - component: {fileID: 1910816485}
   - component: {fileID: 1910816486}
   - component: {fileID: 1910816487}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Boil
   m_TagString: Cook
   m_Icon: {fileID: 0}
@@ -4322,11 +4365,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 486f152ef5da3414c8c3680b47139dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  base_menu: {fileID: 7568703476372675904, guid: 6be74237aca5de744a71c65d420dd459, type: 3}
+  menus:
+  - {fileID: 21300000, guid: 61ac40b257b3a994f841856ad38b2b6b, type: 3}
+  - {fileID: 21300000, guid: 0167a2d235421ca4f8095daaa1defd4f, type: 3}
   current_cooking_type: 2
   layer_mask:
     serializedVersion: 2
     m_Bits: 64
-  holder: {fileID: 1213862355}
+  holder: {fileID: 1213862356}
+  locations:
+  - {x: -6, y: -2.2, z: 0}
+  - {x: -6.3, y: -2.2, z: 0}
+  - {x: -5.7, y: -2.2, z: 0}
+  - {x: -6, y: -2.5, z: 0}
+  - {x: -6, y: -1.9, z: 0}
+  has_locations: []
 --- !u!1 &1940856332
 GameObject:
   m_ObjectHideFlags: 0
@@ -4493,6 +4547,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   current_ingredient_type: 0
+  awake_parent: {fileID: 0}
+  current_parent: {fileID: 0}
 --- !u!1 &2006333052
 GameObject:
   m_ObjectHideFlags: 0
@@ -4506,7 +4562,7 @@ GameObject:
   - component: {fileID: 2006333055}
   - component: {fileID: 2006333056}
   m_Layer: 5
-  m_Name: Circle_2
+  m_Name: Slot_2
   m_TagString: Droped
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

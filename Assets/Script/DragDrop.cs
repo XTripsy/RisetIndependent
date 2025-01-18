@@ -8,14 +8,16 @@ interface IInterfaceDragDrop
 {
     void ITriggerEnter(Vector3 location);
     void ITriggerExit();
-    void ITriggerParent(GameObject parent);
+    void ITriggerParent(Transform parent);
+    void IDestroy(bool destroy);
 }
 
 public class DragDrop : MonoBehaviour, IInterfaceDragDrop
 {
     public Action MouseDown, MouseDrag, MouseUp;
     protected Vector3 start_location, temp_location;
-    protected GameObject temp_parent;
+    protected Transform temp_parent;
+    protected bool bIsDestroy;
 
     void OnMouseDown()
     {
@@ -53,8 +55,13 @@ public class DragDrop : MonoBehaviour, IInterfaceDragDrop
         temp_location = start_location;
     }
 
-    public void ITriggerParent(GameObject parent)
+    public void ITriggerParent(Transform parent)
     {
         temp_parent = parent;
+    }
+
+    public void IDestroy(bool destroy)
+    {
+        bIsDestroy = destroy;   
     }
 }

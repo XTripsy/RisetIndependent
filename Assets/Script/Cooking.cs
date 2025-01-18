@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.UIElements;
 
 enum eFireType
 {
@@ -18,12 +22,27 @@ enum eCookingType
     Boil
 }
 
+public class Recipe
+{
+    public string recipe_name;
+    public List<string> ingredients;
+
+    public Recipe(string recipeName, List<string> ingredient)
+    {
+        recipe_name = recipeName;
+        ingredients = new List<string>(ingredient);
+    }
+}
+
 public class Cooking : MonoBehaviour
 {
-    bool ayam, telur, wortel, cabai, bawang_putih, bawang_merah;
+    public List<Recipe> recipes = new List<Recipe>();
+    List<string> current_ingredients = new List<string>();
+    public GameObject base_menu;
+    public List<Sprite> menus;
 
     int index_fire;
-    bool bIsHover;
+    bool bIsHover, bDoOnce;
     Collider2D collider2d;
     SpriteRenderer sprite_renderer;
 
@@ -34,32 +53,31 @@ public class Cooking : MonoBehaviour
     [SerializeField]
     LayerMask layer_mask;
     [SerializeField]
-    GameObject holder;
+    Transform holder;
+    [SerializeField]
+    List<Vector3> locations;
+    [SerializeField]
+    List<Vector3> has_locations;
 
     private void Awake()
     {
         collider2d = GetComponent<Collider2D>();
         sprite_renderer = GetComponent<SpriteRenderer>();
+        recipes.Add(new Recipe("AyamRicaRica", new List<string> { "Ayam", "Cabai", "BawangPutih", "BawangMerah" }));
+        for (int i = 0; i < 5; i++)
+        {
+            current_ingredients.Add("");
+        }
     }
 
     private void Update()
     {
-        collider2d.callbackLayers = index_fire != 0 ? layer_mask : 0;
+        collider2d.callbackLayers = index_fire != 0 && locations.Count > 0 ? layer_mask : 0;
 
-        switch (current_cooking_type)
-        {
-            case eCookingType.Fry:
-                RicaRicaCheck();
-                break;
-            case eCookingType.Grill:
-                break;
-            case eCookingType.Boil:
-                break;
-        }
-
+        CheckRecipe();
         IngredientsCheck();
 
-        if (!bIsHover) return;
+        if (!bIsHover || holder.childCount > 0) return;
 
         index_fire += (int)Input.GetAxis("Mouse ScrollWheel");
         index_fire %= 4;
@@ -104,69 +122,108 @@ public class Cooking : MonoBehaviour
         }
     }
 
-    private void FireType(Action kecil, Action sedang, Action besar)
+    public bool IsRecipeMatch(List<string> inputIngredients, Recipe recipe)
     {
-        switch (current_fire_type)
+        var inputCount = new Dictionary<string, int>();
+        foreach (var ingredient in inputIngredients)
         {
-            case eFireType.Kecil:
-                kecil.Invoke();
-                break;
-            case eFireType.Sedang:
-                sedang.Invoke();
-                break;
-            case eFireType.Besar:
-                besar.Invoke();
-                break;
+            if (inputCount.ContainsKey(ingredient))
+                inputCount[ingredient]++;
+            else
+                inputCount[ingredient] = 1;
         }
+
+        var recipeCount = new Dictionary<string, int>();
+        foreach (var ingredient in recipe.ingredients)
+        {
+            if (recipeCount.ContainsKey(ingredient))
+                recipeCount[ingredient]++;
+            else
+                recipeCount[ingredient] = 1;
+        }
+
+        foreach (var kvp in recipeCount)
+        {
+            if (!inputCount.ContainsKey(kvp.Key) || inputCount[kvp.Key] != kvp.Value)
+                return false;
+        }
+
+        return true;
     }
 
-    void RicaRicaCheck()
+    public void CheckRecipe()
     {
-        if (ayam && cabai && bawang_merah && bawang_putih)
+        if (IsRecipeMatch(current_ingredients, recipes[0]) && current_cooking_type == eCookingType.Fry)
         {
+            ResetCooking();
+            GameObject rica_ayam = Instantiate(base_menu);
+            rica_ayam.transform.parent = holder;
+            rica_ayam.transform.position = transform.position;
+            rica_ayam.GetComponent<SpriteRenderer>().sprite = menus[0];
+            Color rica_color = Color.white;
+
             switch (current_fire_type)
             {
                 case eFireType.Kecil:
+                    rica_color *= 1;
+                    rica_ayam.GetComponent<SpriteRenderer>().color = rica_color;
                     Debug.LogWarning("RicaRica Belum Matang");
                     break;
                 case eFireType.Sedang:
+                    rica_color *= .5f;
+                    rica_ayam.GetComponent<SpriteRenderer>().color = rica_color;
                     Debug.LogWarning("RicaRica Matang");
                     break;
                 case eFireType.Besar:
+                    rica_color *= .1f;
+                    rica_ayam.GetComponent<SpriteRenderer>().color = rica_color;
                     Debug.LogWarning("RicaRica Gosong");
                     break;
             }
-
-            for (int i = 0; i < holder.transform.childCount; i++)
-            {
-                Destroy(holder.transform.GetChild(i).gameObject);
-            }
         }
+    }
+
+    void ResetCooking()
+    {
+        foreach (Transform child in holder.transform)
+        {
+            Destroy(child.gameObject);
+        }
+        current_ingredients.Clear();
+        sprite_renderer.color = Color.black;
+        index_fire = 0;
     }
 
     void IngredientsCheck()
     {
-        for (int i = 0; i < holder.transform.childCount; i++)
+        for (int i = 0; i < holder.childCount; i++)
         {
-            switch (holder.transform.GetChild(i).GetComponent<Ingredient>().current_ingredient_type)
+            if (holder.GetChild(i).GetComponent<Ingredient>() == null) return;
+
+            eIngredient ingredient = holder.GetChild(i).GetComponent<Ingredient>().current_ingredient_type;
+
+            switch (ingredient)
             {
                 case eIngredient.Ayam:
-                    ayam = true;
+                    current_ingredients[i] = "Ayam";
                     break;
                 case eIngredient.Telur:
-                    telur = true;
+                    current_ingredients[i] = "Telur";
                     break;
                 case eIngredient.Wortel:
-                    wortel = true;
+                    current_ingredients[i] = "Wortel";
                     break;
                 case eIngredient.Cabai:
-                    cabai = true;
+                    current_ingredients[i] = "Cabai";
                     break;
                 case eIngredient.BawangPutih:
-                    bawang_putih = true;
+                    current_ingredients[i] = "BawangPutih";
                     break;
                 case eIngredient.BawangMerah:
-                    bawang_merah = true;
+                    current_ingredients[i] = "BawangMerah";
+                    break;
+                default:
+                    current_ingredients[i] = "";
                     break;
             }
         }
@@ -174,13 +231,13 @@ public class Cooking : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (transform.childCount == 0)
+        if (holder.childCount == 0)
             bIsHover = true;
     }
 
     private void OnMouseExit()
     {
-        if (transform.childCount == 0)
+        if (holder.childCount == 0)
             bIsHover = false;
     }
 
@@ -188,19 +245,36 @@ public class Cooking : MonoBehaviour
     {
         if (other.gameObject.tag == "Ingredient")
         {
+            IInterfaceIngredient IIngredient = other.gameObject.GetComponent<IInterfaceIngredient>() as IInterfaceIngredient;
+            IIngredient.ISpawn(true);
             IInterfaceDragDrop IDragDrop = other.gameObject.GetComponent<IInterfaceDragDrop>() as IInterfaceDragDrop;
-            IDragDrop.ITriggerEnter(this.transform.position);
+            has_locations.Add(locations[0]);
+            locations.RemoveAt(0);
+            IDragDrop.ITriggerEnter(has_locations[has_locations.Count-1]);
             IDragDrop.ITriggerParent(holder);
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "DragDrop")
+        if (other.gameObject.tag == "Ingredient")
         {
+            Debug.LogError("TEMPIK");
+            IInterfaceIngredient IIngredient = other.gameObject.GetComponent<IInterfaceIngredient>() as IInterfaceIngredient;
+            IIngredient.ISpawn(false);
             IInterfaceDragDrop IDragDrop = other.gameObject.GetComponent<IInterfaceDragDrop>() as IInterfaceDragDrop;
             IDragDrop.ITriggerExit();
-            IDragDrop.ITriggerParent(null);
+            IDragDrop.ITriggerParent(transform.parent);
+
+            for (int i = 0; i < holder.childCount; i++)
+            {
+                if (holder.GetChild(i).position != has_locations[i])
+                {
+                    locations.Add(has_locations[i]);
+                    has_locations.RemoveAt(i);
+                    return;
+                }
+            }
         }
     }
 }
