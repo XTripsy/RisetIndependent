@@ -24,7 +24,7 @@ public class Ingredient : DragDrop, IInterfaceIngredient
     bool bIsSpawn, bIsDoOnce;
     public Transform awake_parent, current_parent;
 
-    private void Awake()
+    private void Start()
     {
         awake_parent = transform.parent;
         current_parent = awake_parent;
@@ -41,14 +41,13 @@ public class Ingredient : DragDrop, IInterfaceIngredient
         if (bIsSpawn && transform.parent == awake_parent)
         {
             GameObject dup = Instantiate(this.gameObject);
-            dup.GetComponent<Ingredient>().start_location = start_location;
+            /*dup.GetComponent<Ingredient>().start_location = start_location;
             dup.GetComponent<Ingredient>().awake_parent = awake_parent;
-            dup.GetComponent<Ingredient>().current_parent = awake_parent;
+            dup.GetComponent<Ingredient>().current_parent = awake_parent;*/
             dup.GetComponent<Ingredient>().current_ingredient_type = current_ingredient_type;
             dup.transform.position = start_location;
             dup.transform.parent = transform.parent;
         }
-        if (bIsDestroy) Destroy(this.gameObject);
 
         start_location = temp_location;
 

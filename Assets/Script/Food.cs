@@ -5,13 +5,23 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum eCategory
+{
+    Pokok,
+    Lauk,
+    Sayur,
+    Buah,
+    Sup
+}
+
 public class Food : DragDrop
 {
+    public eCategory current_category;
+    [SerializeField]
+    LayerMask mask;
     Vector3 awake_location;
     Transform slot, temp_slot;
     Collider2D collider2d;
-    [SerializeField]
-    LayerMask mask;
     bool bIsSloted, bIsPressed;
     IInterfaceInventory IInventory;
 
@@ -29,7 +39,7 @@ public class Food : DragDrop
 
     private void Update()
     {
-        if (bIsSloted && !bIsPressed)
+        if (bIsSloted && !bIsPressed && temp_slot != null)
         {
             transform.position = temp_slot.position;
         }
@@ -41,9 +51,11 @@ public class Food : DragDrop
 
         collider2d.callbackLayers = 0;
 
-        if (slot != temp_slot && temp_slot != null)
+        if (slot != temp_slot && slot != null)
         {
+            if(IInventory != null) IInventory.IClose_Inventory();
             temp_slot = slot;
+            transform.parent = temp_parent;
             bIsSloted = true;
             return;
         }
@@ -54,7 +66,8 @@ public class Food : DragDrop
             if(IInventory != null) IInventory.IClose_Inventory();
             bIsSloted = true;
             transform.parent = temp_parent;
-            transform.position = start_location;
+            transform.position = temp_location;//start_location;
+            start_location = temp_location;
         }
     }
 
@@ -79,8 +92,16 @@ public class Food : DragDrop
         if (other.gameObject.tag == "Droped")
         {
             temp_parent = GameManager.CHEF_CONTROLLER.item_holder;
-            start_location = other.transform.position;
+            //start_location = other.transform.position;
+            temp_location = other.transform.position;
             slot = other.transform;
+        }
+
+        if (other.gameObject.tag == "Slot" && other.GetComponent<SlotPlating>().current_category == current_category && other.GetComponent<SlotPlating>().holder.childCount == 0)
+        {
+            temp_parent = other.GetComponent<SlotPlating>().holder;
+            temp_location = other.transform.position;
+            slot = temp_parent;
         }
     }
 
@@ -95,6 +116,13 @@ public class Food : DragDrop
         {
             temp_parent = null;
             start_location = awake_location;
+            slot = null;
+        }
+
+        if (other.gameObject.tag == "Slot" && other.GetComponent<SlotPlating>().current_category == current_category && other.GetComponent<SlotPlating>().holder.childCount == 0)
+        {
+            temp_parent = null;
+            temp_location = start_location;
             slot = null;
         }
     }

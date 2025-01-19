@@ -72,7 +72,7 @@ public class Cooking : MonoBehaviour
 
     private void Update()
     {
-        collider2d.callbackLayers = index_fire != 0 && locations.Count > 0 ? layer_mask : 0;
+        collider2d.callbackLayers = index_fire != 0 ? layer_mask : 0;
 
         CheckRecipe();
         IngredientsCheck();
@@ -160,22 +160,26 @@ public class Cooking : MonoBehaviour
             rica_ayam.transform.parent = holder;
             rica_ayam.transform.position = transform.position;
             rica_ayam.GetComponent<SpriteRenderer>().sprite = menus[0];
-            Color rica_color = Color.white;
+            rica_ayam.GetComponent<Food>().current_category = eCategory.Lauk;
+            Color rica_color = Color.red;
 
             switch (current_fire_type)
             {
                 case eFireType.Kecil:
                     rica_color *= 1;
+                    rica_color.a = 1;
                     rica_ayam.GetComponent<SpriteRenderer>().color = rica_color;
                     Debug.LogWarning("RicaRica Belum Matang");
                     break;
                 case eFireType.Sedang:
                     rica_color *= .5f;
+                    rica_color.a = 1;
                     rica_ayam.GetComponent<SpriteRenderer>().color = rica_color;
                     Debug.LogWarning("RicaRica Matang");
                     break;
                 case eFireType.Besar:
                     rica_color *= .1f;
+                    rica_color.a = 1;
                     rica_ayam.GetComponent<SpriteRenderer>().color = rica_color;
                     Debug.LogWarning("RicaRica Gosong");
                     break;
@@ -196,6 +200,12 @@ public class Cooking : MonoBehaviour
 
     void IngredientsCheck()
     {
+        for (int i = 0; i < current_ingredients.Count; i++)
+        {
+            if (i > holder.childCount - 1)
+                current_ingredients[i] = "";
+        }
+
         for (int i = 0; i < holder.childCount; i++)
         {
             if (holder.GetChild(i).GetComponent<Ingredient>() == null) return;
@@ -243,6 +253,8 @@ public class Cooking : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (holder.childCount > 4) return;
+
         if (other.gameObject.tag == "Ingredient")
         {
             IInterfaceIngredient IIngredient = other.gameObject.GetComponent<IInterfaceIngredient>() as IInterfaceIngredient;
@@ -259,7 +271,6 @@ public class Cooking : MonoBehaviour
     {
         if (other.gameObject.tag == "Ingredient")
         {
-            Debug.LogError("TEMPIK");
             IInterfaceIngredient IIngredient = other.gameObject.GetComponent<IInterfaceIngredient>() as IInterfaceIngredient;
             IIngredient.ISpawn(false);
             IInterfaceDragDrop IDragDrop = other.gameObject.GetComponent<IInterfaceDragDrop>() as IInterfaceDragDrop;

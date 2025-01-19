@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public enum eCategory
+public enum ECategoryyy
 {
     Pokok,
     Lauk,

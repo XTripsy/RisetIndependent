@@ -33,8 +33,9 @@ public class DragDrop : MonoBehaviour, IInterfaceDragDrop
 
     void OnMouseUp()
     {
-        MouseUp();
         GameManager.CHEF_CONTROLLER.trash_bin.transform.DOMoveY(-6.5f, .3f);
+        MouseUp();
+        if (bIsDestroy) Destroy(this.gameObject);
         transform.position = start_location;
     }
 
