@@ -17,6 +17,8 @@ public enum eCategory
 public class Food : DragDrop
 {
     public eCategory current_category;
+    [HideInInspector] public string name_menu;
+    [HideInInspector] public int maturity_level;
     [SerializeField]
     LayerMask mask;
     Vector3 awake_location;
@@ -66,7 +68,7 @@ public class Food : DragDrop
             if(IInventory != null) IInventory.IClose_Inventory();
             bIsSloted = true;
             transform.parent = temp_parent;
-            transform.position = temp_location;//start_location;
+            transform.position = temp_location;
             start_location = temp_location;
         }
     }
@@ -92,7 +94,6 @@ public class Food : DragDrop
         if (other.gameObject.tag == "Droped")
         {
             temp_parent = GameManager.CHEF_CONTROLLER.item_holder;
-            //start_location = other.transform.position;
             temp_location = other.transform.position;
             slot = other.transform;
         }

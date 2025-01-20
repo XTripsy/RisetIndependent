@@ -161,6 +161,7 @@ public class Cooking : MonoBehaviour
             rica_ayam.transform.position = transform.position;
             rica_ayam.GetComponent<SpriteRenderer>().sprite = menus[0];
             rica_ayam.GetComponent<Food>().current_category = eCategory.Lauk;
+            rica_ayam.GetComponent<Food>().name_menu = "RicaAyam";
             Color rica_color = Color.red;
 
             switch (current_fire_type)
@@ -169,18 +170,21 @@ public class Cooking : MonoBehaviour
                     rica_color *= 1;
                     rica_color.a = 1;
                     rica_ayam.GetComponent<SpriteRenderer>().color = rica_color;
+                    rica_ayam.GetComponent<Food>().maturity_level = 1;
                     Debug.LogWarning("RicaRica Belum Matang");
                     break;
                 case eFireType.Sedang:
                     rica_color *= .5f;
                     rica_color.a = 1;
                     rica_ayam.GetComponent<SpriteRenderer>().color = rica_color;
+                    rica_ayam.GetComponent<Food>().maturity_level = 2;
                     Debug.LogWarning("RicaRica Matang");
                     break;
                 case eFireType.Besar:
                     rica_color *= .1f;
                     rica_color.a = 1;
                     rica_ayam.GetComponent<SpriteRenderer>().color = rica_color;
+                    rica_ayam.GetComponent<Food>().maturity_level = 3;
                     Debug.LogWarning("RicaRica Gosong");
                     break;
             }

@@ -15,6 +15,8 @@ TagManager:
   - TrashBin
   - Ingredient
   - Food
+  - Lunchbox
+  - NPC
   layers:
   - Default
   - TransparentFX
