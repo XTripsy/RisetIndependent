@@ -9,4 +9,9 @@ public class ButtonFunction : MonoBehaviour
     {
         SceneManager.LoadScene(level);
     }
+
+    public void SetPlayerIndex(int index)
+    {
+        GameManager.INDEX_PLAYER = index;
+    }
 }

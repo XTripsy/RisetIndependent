@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager
 {
+    public static int INDEX_PLAYER;
+    public static float TIME_REMANING;
+    public static int TOTAL_STARS;
     private static GameManager game_manager;
     public static GameManager GAME_MANAGER
     {

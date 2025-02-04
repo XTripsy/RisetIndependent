@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AhliMenu.unity
     guid: 658a4b8c7024e484dbc54df4550f1af2
+  - enabled: 1
+    path: Assets/Scenes/Gameplay.unity
+    guid: 4e388e1a80bc3d14eb534f2493395ebd
   m_configObjects: {}

@@ -16,14 +16,25 @@ public class NPC : MonoBehaviour
 
     private void Awake()
     {
-        ignore_menus.Add("AyamRica");
+        /*ignore_menus.Add("AyamRica");
         ignore_menus.Add("Semangka");
         ignore_menus.Add("AyamBali");
         ignore_menus.Add("Nasi");
         ignore_menus.Add("Kentang");
         ignore_menus.Add("kol");
 
-        ignore_menu = ignore_menus[Random.Range(0, ignore_menus.Count-1)];
+        ignore_menu = ignore_menus[Random.Range(0, ignore_menus.Count-1)];*/
+        GameManager.IGNORE_MENUS.Add("Nasi", 1);
+    }
+
+    private void Update()
+    {
+        if (GameManager.TIME_REMANING < 30)
+            feedback[2].text = "MARAH";
+        else if (GameManager.TIME_REMANING < 180)
+            feedback[2].text = "JENUH";
+        else 
+            feedback[2].text = "GEMBIRA";
     }
 
     private IEnumerator DisableFeedback(float delay)
