@@ -7,7 +7,7 @@ using UnityEngine;
 public class ChefController : MonoBehaviour
 {
     int index_scene;
-    public Transform item_holder, trash_bin;
+    public Transform item_holder_1, item_holder_2, item_holder_3, trash_bin;
     public List<GameObject> scenes;
     public List<TextMeshProUGUI> button_text;
     public TextMeshProUGUI title;
@@ -53,7 +53,7 @@ public class ChefController : MonoBehaviour
     {
         title.text = scenes[0].name;
         button_text[0].text = scenes[1].name;
-        button_text[1].text = scenes[2].name;
+        button_text[1].text = scenes[1].name;
     }
 }
 

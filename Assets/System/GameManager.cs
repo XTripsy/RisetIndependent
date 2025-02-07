@@ -6,7 +6,7 @@ public class GameManager
 {
     public static int INDEX_PLAYER;
     public static float TIME_REMANING;
-    public static int TOTAL_STARS;
+    public static float TOTAL_STARS;
     private static GameManager game_manager;
     public static GameManager GAME_MANAGER
     {
@@ -20,6 +20,9 @@ public class GameManager
     }
 
     public static ChefController CHEF_CONTROLLER;
+    public static PlatingController PLATING_CONTROLLER;
+    public static NPCContoller NPC_CONTROLLER;
     public static Dictionary<string, int> GOAL_MENUS = new Dictionary<string, int>();
     public static Dictionary<string, int> IGNORE_MENUS = new Dictionary<string, int>();
+    //public static Dictionary<string, int> ALL_MENUS = new Dictionary<string, int>();
 }

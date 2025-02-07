@@ -22,7 +22,9 @@ public class DragDrop : MonoBehaviour, IInterfaceDragDrop
     void OnMouseDown()
     {
         MouseDown();
-        GameManager.CHEF_CONTROLLER.trash_bin.transform.DOMoveY(-3.8f, .3f);
+
+        if (tag != "Lunchbox")
+            GameManager.CHEF_CONTROLLER.trash_bin.transform.DOMoveY(-3.8f, .3f);
     }
 
     void OnMouseDrag()
@@ -33,7 +35,9 @@ public class DragDrop : MonoBehaviour, IInterfaceDragDrop
 
     void OnMouseUp()
     {
-        GameManager.CHEF_CONTROLLER.trash_bin.transform.DOMoveY(-6.5f, .3f);
+        if (tag != "Lunchbox")
+            GameManager.CHEF_CONTROLLER.trash_bin.transform.DOMoveY(-6.5f, .3f);
+
         MouseUp();
         if (bIsDestroy) Destroy(this.gameObject);
         transform.position = start_location;

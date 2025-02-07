@@ -86,14 +86,22 @@ public class Food : DragDrop
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Inventory")
+        if (other.gameObject.tag == "FoodInventory")
         {
             IInventory = other.gameObject.GetComponent<IInterfaceInventory>() as IInterfaceInventory;
         }
 
         if (other.gameObject.tag == "Droped")
         {
-            temp_parent = GameManager.CHEF_CONTROLLER.item_holder;
+            if (other.name == "Slot_1" && GameManager.CHEF_CONTROLLER.item_holder_1.childCount == 0)
+                temp_parent = GameManager.CHEF_CONTROLLER.item_holder_1;
+            else if (other.name == "Slot_2" && GameManager.CHEF_CONTROLLER.item_holder_2.childCount == 0)
+                temp_parent = GameManager.CHEF_CONTROLLER.item_holder_2;
+            else if (other.name == "Slot_3" && GameManager.CHEF_CONTROLLER.item_holder_3.childCount == 0)
+                temp_parent = GameManager.CHEF_CONTROLLER.item_holder_3;
+            else
+                return;
+
             temp_location = other.transform.position;
             slot = other.transform;
         }
@@ -108,7 +116,7 @@ public class Food : DragDrop
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Inventory")
+        if (other.gameObject.tag == "FoodInventory")
         {
             IInventory = null;
         }

@@ -48,7 +48,7 @@ public class Item : MonoBehaviour
         if (GODroped != null && !bIsMousePressed)
         {
             collider2d.isTrigger = false;
-            transform.parent = GameManager.CHEF_CONTROLLER.item_holder.transform;
+            //transform.parent = GameManager.CHEF_CONTROLLER.item_holder.transform;
             transform.position = GODroped.transform.position;
             GODroped.tag = "Untouchable";
         }

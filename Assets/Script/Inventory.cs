@@ -36,14 +36,22 @@ public class Inventory : MonoBehaviour, IInterfaceInventory
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Food")
+        if (other.gameObject.tag == "Food" && gameObject.tag == "FoodInventory")
             IOpen_Inventory();
+
+        if (other.gameObject.tag == "Lunchbox" && gameObject.tag == "MenuInventory")
+            IOpen_Inventory();
+
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Food")
+        if (other.gameObject.tag == "Food" && gameObject.tag == "FoodInventory")
             IClose_Inventory();
+
+        if (other.gameObject.tag == "Lunchbox" && gameObject.tag == "MenuInventory")
+            IClose_Inventory();
+
     }
 
     public void IClose_Inventory()

@@ -9,10 +9,13 @@ public class NPC : MonoBehaviour
     List<TextMeshProUGUI> feedback;
     [SerializeField]
     Transform canvas;
+    [HideInInspector]
+    public float emotion;
 
     List<string> ignore_menus = new List<string>();
     string ignore_menu;
     Coroutine feedback_coroutine;
+    float time;
 
     private void Awake()
     {
@@ -24,20 +27,43 @@ public class NPC : MonoBehaviour
         ignore_menus.Add("kol");
 
         ignore_menu = ignore_menus[Random.Range(0, ignore_menus.Count-1)];*/
-        GameManager.IGNORE_MENUS.Add("Nasi", 1);
+        //GameManager.IGNORE_MENUS.Add("Nasi", 1);
+    }
+
+    private void Start()
+    {
+        
     }
 
     private void Update()
     {
-        if (GameManager.TIME_REMANING < 30)
-            feedback[2].text = "MARAH";
+        time += Time.deltaTime;
+
+        if (time < 20)
+        {
+            emotion = 1;
+            feedback[0].text = "Gembira";
+        }
+        else if (time < 30)
+        {
+            emotion = .5f;
+            feedback[0].text = "Jenuh";
+        }
+        else
+        {
+            emotion = 0;
+            feedback[0].text = "Marah";
+        }
+
+        /*if (GameManager.TIME_REMANING < 30)
+            feedback[0].text = "MARAH";
         else if (GameManager.TIME_REMANING < 180)
-            feedback[2].text = "JENUH";
+            feedback[0].text = "JENUH";
         else 
-            feedback[2].text = "GEMBIRA";
+            feedback[0].text = "GEMBIRA";*/
     }
 
-    private IEnumerator DisableFeedback(float delay)
+    /*private IEnumerator DisableFeedback(float delay)
     {
         yield return new WaitForSeconds(delay);
         canvas.gameObject.SetActive(false);
@@ -46,8 +72,6 @@ public class NPC : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.LogError("KOTOL");
-
         if (other.tag != "Food")
             return;
 
@@ -71,5 +95,5 @@ public class NPC : MonoBehaviour
         }
 
         feedback_coroutine = StartCoroutine(DisableFeedback(2));
-    }
+    }*/
 }

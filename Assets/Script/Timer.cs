@@ -14,6 +14,7 @@ public class Timer : MonoBehaviour
     {
         timer_text = GetComponent<TextMeshProUGUI>();
         time = 300;
+        GameManager.TIME_REMANING = time;
     }
 
     void Update()

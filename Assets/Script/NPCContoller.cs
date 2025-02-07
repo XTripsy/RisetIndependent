@@ -1,0 +1,34 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class NPCContoller : MonoBehaviour
+{
+    [SerializeField]
+    GameObject npc_1, npc_2;
+    [HideInInspector]
+    public NPC npc_one, npc_two;
+    bool bIsDoOnce;
+
+    private void Start()
+    {
+        GameManager.NPC_CONTROLLER = this;
+        npc_one = npc_1.GetComponent<NPC>();
+        npc_two = npc_2.GetComponent<NPC>();
+    }
+
+    void Update()
+    {
+        if ((GameManager.TIME_REMANING <= 250 || npc_1 == null) && !npc_2.activeSelf && !bIsDoOnce && npc_2 != null)
+        {
+            bIsDoOnce = true;
+            npc_2.SetActive(true);
+        }
+
+        //if (!npc_1.activeSelf && !npc_2.activeSelf)
+        if (npc_1 == null && npc_2 == null)
+        {
+            Debug.LogError(GameManager.TOTAL_STARS);
+        }
+    }
+}
