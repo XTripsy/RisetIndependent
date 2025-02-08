@@ -17,8 +17,6 @@ public class ChefController : MonoBehaviour
     private void Awake()
     {
         GameManager.CHEF_CONTROLLER = this;
-        GameManager.GOAL_MENUS.Add("AyamRica", 1);
-        GameManager.GOAL_MENUS.Add("TelurMalaka", 1);
         ChangeScene(0);
     }
 

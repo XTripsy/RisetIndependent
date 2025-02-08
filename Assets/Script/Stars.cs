@@ -5,7 +5,7 @@ using UnityEngine;
 public class Stars : MonoBehaviour
 {
     [SerializeField]
-    int index_stars;
+    float index_stars;
     void Start()
     {
         if (GameManager.TOTAL_STARS >= index_stars)

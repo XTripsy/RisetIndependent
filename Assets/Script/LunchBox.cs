@@ -5,58 +5,24 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Mirror.BouncyCastle.Asn1.Ocsp;
 
 public class LunchBox : DragDrop
 {
     Dictionary<string, int> Menus = new Dictionary<string, int>();
     Dictionary<int, int> Menus_Maturity = new Dictionary<int, int>();
-    //int stars = 3;
-    bool bIsMenuEqual = true;
+    bool bIsMenuEqual;
     bool bIsBurnt;
     bool bIsServe;
     Tween tween;
 
     [SerializeField]
-    LayerMask mask;
+    LayerMask mask, layer;
     Vector3 awake_location;
     Transform slot, temp_slot, npc;
     bool bIsSloted, bIsPressed;
     IInterfaceInventory IInventory;
     Collider2D collider2d;
-
-    #region FINISH_BUTTON
-
-    public void FinishStage()
-    {
-        if (GameManager.TIME_REMANING > 30)
-            GameManager.TOTAL_STARS += 1;
-
-        foreach (var menu in Menus)
-        {
-            if (GameManager.GOAL_MENUS[menu.Key] != menu.Value)
-                bIsMenuEqual = false;
-
-            if (GameManager.IGNORE_MENUS[menu.Key] == menu.Value)
-                bIsBurnt = true;
-        }
-
-        if (Menus.Count != GameManager.GOAL_MENUS.Count)
-            bIsMenuEqual = false;
-
-        foreach (var item in Menus_Maturity)
-        {
-            if (item.Value != 2)
-                bIsBurnt = true;
-        }
-
-        if (bIsMenuEqual)
-            GameManager.TOTAL_STARS += 1;
-
-        if (!bIsBurnt)
-            GameManager.TOTAL_STARS += 1;
-    }
-
-    #endregion
 
     private void Start()
     {
@@ -83,13 +49,13 @@ public class LunchBox : DragDrop
     {
         bIsPressed = false;
 
-        collider2d.callbackLayers = 0;
+        collider2d.callbackLayers = layer;
 
         if (bIsServe)
         {
             CheckStars();
-            //npc.gameObject.SetActive(false);
-            Destroy(npc.gameObject);
+            //Destroy(npc.gameObject);
+            npc.GetComponent<NPC>().bIsServeed = true;
             Destroy(gameObject);
             return;
         }
@@ -117,25 +83,63 @@ public class LunchBox : DragDrop
 
     void CheckStars()
     {
-        foreach (var menu in Menus)
-        {
-            if (GameManager.GOAL_MENUS[menu.Key] != menu.Value)
-                bIsMenuEqual = false;
+        Menus.Clear();
+        Menus_Maturity.Clear();
 
-            if (GameManager.IGNORE_MENUS[menu.Key] == menu.Value)
-                bIsMenuEqual = false;
+        Dictionary<string, int> menu_siswa = new Dictionary<string, int>();
+        Dictionary<string, int> menu_ignore_siswa = new Dictionary<string, int>();
+
+        if (npc.name == "NPC_1")
+        {
+            menu_siswa = GameManager.NPC_CONTROLLER.npc_one.menu;
+            menu_ignore_siswa = GameManager.NPC_CONTROLLER.npc_one.menu_ignore;
+        }
+        else if (npc.name == "NPC_2")
+        {
+            menu_siswa = GameManager.NPC_CONTROLLER.npc_two.menu;
+            menu_ignore_siswa = GameManager.NPC_CONTROLLER.npc_two.menu_ignore;
         }
 
-        if (Menus.Count != GameManager.GOAL_MENUS.Count)
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            if (transform.GetChild(i).GetComponentInChildren<Food>() != null)
+            {
+                Food food = transform.GetChild(i).GetComponentInChildren<Food>();
+                Menus.Add(food.name_menu, 1);
+                Menus_Maturity.Add(i+1, food.maturity_level);
+            }
+        }
+
+        if (Menus.Count != menu_siswa.Count)
+        {
             bIsMenuEqual = false;
+            return;
+        }
 
         foreach (var item in Menus_Maturity)
         {
-            if (item.Value != 2)
-                bIsMenuEqual = true;
+            if (item.Value == 2)
+                bIsBurnt = true;
         }
 
-        if (!bIsMenuEqual)
+        foreach (var menu in Menus)
+        {
+            if (menu_siswa[menu.Key] == menu.Value)
+                bIsMenuEqual = true;
+
+            foreach (var item in menu_ignore_siswa)
+            {
+                if (item.Value == menu.Value)
+                {
+                    bIsMenuEqual = false;
+                    return;
+                }
+            }
+        }
+
+        Debug.Log(bIsMenuEqual +"/"+ bIsBurnt);
+
+        if (!bIsMenuEqual || !bIsBurnt)
             return;
 
         if (npc.name == "NPC_1")
@@ -143,6 +147,8 @@ public class LunchBox : DragDrop
 
         if (npc.name == "NPC_2")
             GameManager.TOTAL_STARS += GameManager.NPC_CONTROLLER.npc_two.emotion;
+
+        Debug.Log("NPC" + GameManager.TOTAL_STARS);
     }
 
     void ClickMouseHold()
@@ -158,11 +164,12 @@ public class LunchBox : DragDrop
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Food")
+        /*if (other.tag == "Food")
         {
             Menus.Add(other.GetComponent<Food>().name_menu, 1);
             Menus_Maturity.Add(other.GetComponent<Food>().maturity_level, 1);
-        }
+            Debug.Log("MASUK FOOD");
+        }*/
 
         if (other.gameObject.tag == "MenuInventory")
         {
@@ -189,11 +196,12 @@ public class LunchBox : DragDrop
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Food")
+        /*if (other.tag == "Food")
         {
             Menus.Remove(other.GetComponent<Food>().name_menu);
             Menus_Maturity.Remove(other.GetComponent<Food>().maturity_level);
-        }
+            Debug.Log("KELUARFOOD");
+        }*/
 
         if (other.gameObject.tag == "MenuInventory")
         {

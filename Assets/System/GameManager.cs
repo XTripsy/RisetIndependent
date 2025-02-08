@@ -24,5 +24,4 @@ public class GameManager
     public static NPCContoller NPC_CONTROLLER;
     public static Dictionary<string, int> GOAL_MENUS = new Dictionary<string, int>();
     public static Dictionary<string, int> IGNORE_MENUS = new Dictionary<string, int>();
-    //public static Dictionary<string, int> ALL_MENUS = new Dictionary<string, int>();
 }

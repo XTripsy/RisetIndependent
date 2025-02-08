@@ -5,7 +5,7 @@ using UnityEngine;
 public class NPCContoller : MonoBehaviour
 {
     [SerializeField]
-    GameObject npc_1, npc_2;
+    GameObject npc_1, npc_2, result;
     [HideInInspector]
     public NPC npc_one, npc_two;
     bool bIsDoOnce;
@@ -17,9 +17,23 @@ public class NPCContoller : MonoBehaviour
         npc_two = npc_2.GetComponent<NPC>();
     }
 
-    void Update()
+    private void Update()
     {
-        if ((GameManager.TIME_REMANING <= 250 || npc_1 == null) && !npc_2.activeSelf && !bIsDoOnce && npc_2 != null)
+        if ((GameManager.TIME_REMANING <= 250 || npc_one.bIsServeed) && !npc_two.bIsServeed)
+            npc_2.SetActive(true);
+
+        if (npc_one.bIsServeed && npc_two.bIsServeed && !bIsDoOnce)
+        {
+            bIsDoOnce = true;
+            if (GameManager.TIME_REMANING > 30) GameManager.TOTAL_STARS += 1;
+            Debug.Log(GameManager.TOTAL_STARS);
+            result.SetActive(true);
+        }
+    }
+
+    /*void Update()
+    {
+        if ((GameManager.TIME_REMANING <= 250 || npc_1 == null) && !bIsDoOnce && npc_2 != null)
         {
             bIsDoOnce = true;
             npc_2.SetActive(true);
@@ -30,5 +44,5 @@ public class NPCContoller : MonoBehaviour
         {
             Debug.LogError(GameManager.TOTAL_STARS);
         }
-    }
+    }*/
 }

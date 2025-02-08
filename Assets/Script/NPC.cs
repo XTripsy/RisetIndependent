@@ -11,6 +11,11 @@ public class NPC : MonoBehaviour
     Transform canvas;
     [HideInInspector]
     public float emotion;
+    [HideInInspector]
+    public bool bIsServeed;
+
+    public Dictionary<string, int> menu = new Dictionary<string, int>();
+    public Dictionary<string, int> menu_ignore = new Dictionary<string, int>();
 
     List<string> ignore_menus = new List<string>();
     string ignore_menu;
@@ -19,15 +24,9 @@ public class NPC : MonoBehaviour
 
     private void Awake()
     {
-        /*ignore_menus.Add("AyamRica");
-        ignore_menus.Add("Semangka");
-        ignore_menus.Add("AyamBali");
-        ignore_menus.Add("Nasi");
-        ignore_menus.Add("Kentang");
-        ignore_menus.Add("kol");
-
-        ignore_menu = ignore_menus[Random.Range(0, ignore_menus.Count-1)];*/
-        //GameManager.IGNORE_MENUS.Add("Nasi", 1);
+        menu.Add("AyamRica", 1);
+        menu.Add("TelurMalaka", 1);
+        //menu_ignore.Add("TelurMalaka", 1);
     }
 
     private void Start()
@@ -37,6 +36,12 @@ public class NPC : MonoBehaviour
 
     private void Update()
     {
+        if (bIsServeed)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         time += Time.deltaTime;
 
         if (time < 20)
@@ -54,13 +59,6 @@ public class NPC : MonoBehaviour
             emotion = 0;
             feedback[0].text = "Marah";
         }
-
-        /*if (GameManager.TIME_REMANING < 30)
-            feedback[0].text = "MARAH";
-        else if (GameManager.TIME_REMANING < 180)
-            feedback[0].text = "JENUH";
-        else 
-            feedback[0].text = "GEMBIRA";*/
     }
 
     /*private IEnumerator DisableFeedback(float delay)

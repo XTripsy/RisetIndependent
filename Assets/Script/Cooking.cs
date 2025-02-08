@@ -77,11 +77,6 @@ public class Cooking : MonoBehaviour
     {
         collider2d.callbackLayers = index_fire != 0 ? layer_mask : 0;
 
-        for (int i = 0; i < current_ingredients.Count; i++)
-        {
-            Debug.Log(current_ingredients[i]);
-        }
-
         if (holder_food.childCount > 0)
         {
             ResetCooking();
@@ -104,37 +99,30 @@ public class Cooking : MonoBehaviour
             case -3:
                 sprite_renderer.color = Color.yellow;
                 current_fire_type = eFireType.Kecil;
-                Debug.Log("Kecil");
                 break;
             case -2:
                 sprite_renderer.color = Color.red;
                 current_fire_type = eFireType.Sedang;
-                Debug.Log("Sedang");
                 break;
             case -1:
                 sprite_renderer.color = Color.blue;
                 current_fire_type = eFireType.Besar;
-                Debug.Log("Besar");
                 break;
             case 0:
                 sprite_renderer.color = Color.black;
                 current_fire_type = eFireType.Mati;
-                Debug.Log("Mati");
                 break;
             case 1:
                 sprite_renderer.color = Color.yellow;
                 current_fire_type = eFireType.Kecil;
-                Debug.Log("Kecil");
                 break;
             case 2:
                 sprite_renderer.color = Color.red;
                 current_fire_type = eFireType.Sedang;
-                Debug.Log("Sedang");
                 break;
             case 3:
                 sprite_renderer.color = Color.blue;
                 current_fire_type = eFireType.Besar;
-                Debug.Log("Besar");
                 break;
         }
     }
@@ -244,8 +232,6 @@ public class Cooking : MonoBehaviour
             if (holder_ingridient.GetChild(i).GetComponent<Ingredient>() == null) return;
 
             eIngredient ingredient = holder_ingridient.GetChild(i).GetComponent<Ingredient>().current_ingredient_type;
-
-            Debug.LogWarning(holder_ingridient.childCount);
 
             switch (ingredient)
             {
