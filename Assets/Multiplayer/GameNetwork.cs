@@ -14,8 +14,8 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnServerConnect(NetworkConnectionToClient conn)
     {
+        Debug.Log($"Connection from {conn.address}");
         base.OnServerConnect(conn);
-        Debug.Log($"New connection: {conn.connectionId}");
         GameLobbyManager.Instance.UpdatePlayerCount();
     }
 
@@ -44,7 +44,7 @@ public class GameNetworkManager : NetworkManager
 
     public override void OnClientConnect()
     {
-        Debug.Log("[CLIENT] Successfully connected to server");
+        Debug.Log("Successfully connected to " + networkAddress);
         base.OnClientConnect();
     }
 }

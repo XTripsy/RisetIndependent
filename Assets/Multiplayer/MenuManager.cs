@@ -50,12 +50,17 @@ public class GameLobbyManager : MonoBehaviour
         hostIPText.text = "Your IP: " + GetLocalIP();
     }
 
-    private string GetLocalIP()
+    public string GetLocalIP()
     {
-        return Dns.GetHostEntry(Dns.GetHostName())
-            .AddressList.First(
-                f => f.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-            .ToString();
+        var host = Dns.GetHostEntry(Dns.GetHostName());
+        foreach (var ip in host.AddressList)
+        {
+            if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            {
+                return ip.ToString();
+            }
+        }
+        return "127.0.0.1";
     }
 
     private void CheckHostConnections()
