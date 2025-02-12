@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &10519232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22ce31b845dd34e4ab5b32cac6f3f288, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KokiPanel: {fileID: 2082341876}
-  GiziPanel: {fileID: 1147015687}
+  KokiPanel: {fileID: 2045254189}
+  GiziPanel: {fileID: 2101436090}
   mainCanvas: {fileID: 757038034}
 --- !u!4 &10519233
 Transform:
@@ -7168,7 +7168,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2045254190
 Transform:
   m_ObjectHideFlags: 0

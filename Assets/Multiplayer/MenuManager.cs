@@ -2,6 +2,9 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Net;
+using System.Linq;
+
 
 public class GameLobbyManager : MonoBehaviour
 {
@@ -20,6 +23,7 @@ public class GameLobbyManager : MonoBehaviour
     public TMP_Text errorText;
     public TMP_InputField ipInputField;
     public TMP_Text connectingStatusText;
+    public TMP_Text hostIPText;
 
     private bool isHost;
     public NetSceneController sceneController;
@@ -43,7 +47,15 @@ public class GameLobbyManager : MonoBehaviour
         isHost = true;
         networkManager.StartHost();
         ShowPanel(hostWaitPanel);
-        Invoke(nameof(CheckHostConnections), 0.5f);
+        hostIPText.text = "Your IP: " + GetLocalIP();
+    }
+
+    private string GetLocalIP()
+    {
+        return Dns.GetHostEntry(Dns.GetHostName())
+            .AddressList.First(
+                f => f.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+            .ToString();
     }
 
     private void CheckHostConnections()
@@ -63,7 +75,6 @@ public class GameLobbyManager : MonoBehaviour
         if (!string.IsNullOrEmpty(ipInputField.text))
         {
             networkManager.networkAddress = ipInputField.text;
-            connectingStatusText.gameObject.SetActive(true);
             networkManager.StartClient();
             StartCoroutine(ConnectionTimeoutCheck());
         }
