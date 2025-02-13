@@ -2,56 +2,52 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class firstpiece : MonoBehaviour
+public class piece : MonoBehaviour
 {
     [SerializeField]
     private Transform pieceholder;
-    private Vector2 initposition;
+    private Vector2 initPosition;
     private float deltaX, deltaY;
-    private static bool locked;
+    public bool right;
 
-    // Start is called before the first frame update
     void Start()
     {
-        initposition = transform.position;
+        initPosition = transform.position;
+        right = false;
     }
 
-    // Update is called once per frame
-    void Update()
+    void OnMouseDown()
     {
-        if (Input.touchCount > 0 && !locked)
+        Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (GetComponent<Collider2D>() == Physics2D.OverlapPoint(touchPos))
         {
-            Touch touch = Input.GetTouch(0);
-            Vector2 touchpos = Camera.main.ScreenToWorldPoint(touch.position);
+            deltaX = touchPos.x - transform.position.x;
+            deltaY = touchPos.y - transform.position.y;
+        }
+    }
 
-            switch (touch.phase)
-            {
-                case TouchPhase.Began:
-                    if (GetComponent<Collider2D>() == Physics2D.OverlapPoint(touchpos));
-                    {
-                        deltaX = touchpos.x - transform.position.x;
-                        deltaY = touchpos.y - transform.position.y;
-                    }
-                    break;
-                case TouchPhase.Moved:
-                    if (GetComponent<Collider2D>() == Physics2D.OverlapPoint(touchpos)) ;
-                    {
-                       transform.position = new Vector2(touchpos.x - deltaX, touchpos.y - deltaY);
-                    }
-                    break;
-                case TouchPhase.Ended:
-                    if (Mathf.Abs(transform.position.x - pieceholder.position.x) <= 0.5f &&
-                        Mathf.Abs(transform.position.y - pieceholder.position.y) <= 0.5f)
-                    {
-                        transform.position = new Vector2(pieceholder.position.x, pieceholder.position.y);
-                        locked = true;
-                    }
-                    else
-                    {
-                        transform.position = new Vector2(initposition.x, initposition.y);
-                    }
-                    break;
-}
+    void OnMouseDrag()
+    {
+        Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (GetComponent<Collider2D>() == Physics2D.OverlapPoint(touchPos))
+        {
+            transform.position = new Vector2(touchPos.x - deltaX, touchPos.y - deltaY);
+        }
+    }
+
+    void OnMouseUp()
+    {
+        Vector2 touchPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (Mathf.Abs(transform.position.x - pieceholder.position.x) <= 0.5f &&
+            Mathf.Abs(transform.position.y - pieceholder.position.y) <= 0.5f)
+        {
+            transform.position = new Vector2(pieceholder.position.x, pieceholder.position.y);
+            right = true;
+        }
+        else
+        {
+            transform.position = new Vector2(touchPos.x - deltaX, touchPos.y - deltaY);
+            right = false;
         }
     }
 }
