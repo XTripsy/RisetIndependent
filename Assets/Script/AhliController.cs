@@ -21,7 +21,7 @@ public class AhliController : MonoBehaviour
     private void Awake()
     {
         GameManager.AHLI_CONTROLLER = this;
-        ChangeScene(2);
+        ChangeScene(0);
     }
 
     public void ChangeScene(int value)
@@ -55,6 +55,6 @@ public class AhliController : MonoBehaviour
     {
         title.text = scenes[0].name;
         button_text[0].text = scenes[1].name;
-        button_text[1].text = scenes[1].name;
+        button_text[1].text = scenes[2].name;
     }
 }
