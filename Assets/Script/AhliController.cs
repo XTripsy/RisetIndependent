@@ -58,5 +58,3 @@ public class AhliController : MonoBehaviour
         button_text[1].text = scenes[1].name;
     }
 }
-
-
