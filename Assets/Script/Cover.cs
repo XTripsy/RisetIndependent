@@ -9,6 +9,7 @@ public class Cover : MonoBehaviour
 {
     public List<GameObject> book;
     public TMP_InputField inputfield;
+    public List<GameObject> fpage;
 
     public void CheckInput()
     {
@@ -19,7 +20,10 @@ public class Cover : MonoBehaviour
             {
                 item.SetActive(true);
             }
-            gameObject.SetActive(false);
+            foreach (var item in fpage)
+            {
+                item.SetActive(false);
+            }
         }
     }
 }

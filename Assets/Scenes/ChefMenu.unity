@@ -513,8 +513,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
-  m_fontSizeBase: 16
+  m_fontSize: 175
+  m_fontSizeBase: 175
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -549,7 +549,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -183.21796, y: 0, z: -188.1698, w: 0}
+  m_margin: {x: -1693.8231, y: -287.26172, z: -1628.4691, w: -251.354}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -971,7 +971,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c22eb6f364ed4b14d9cc9adc34038eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item_holder: {fileID: 1425082813}
+  item_holder_1: {fileID: 0}
+  item_holder_2: {fileID: 0}
+  item_holder_3: {fileID: 0}
   trash_bin: {fileID: 1161582343}
   scenes:
   - {fileID: 1940856332}
@@ -2762,8 +2764,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 137.5}
-  m_SizeDelta: {x: -100, y: -295}
+  m_AnchoredPosition: {x: 32.1779, y: 724.7451}
+  m_SizeDelta: {x: -164.3557, y: -1469.4904}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &790825007
 MonoBehaviour:
@@ -2971,7 +2973,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &835978832
 Transform:
   m_ObjectHideFlags: 0
@@ -3261,11 +3263,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d533d05e8c8ba145a7386e3b1943575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  feedback:
-  - {fileID: 2073238175}
-  - {fileID: 1897174366}
-  - {fileID: 1170768311}
-  canvas: {fileID: 1886402260}
+  emotion_sprite: []
+  emotion: 0
+  bIsServeed: 0
 --- !u!61 &968540412
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5986,6 +5986,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a3269cdfe040344c934d7be2b4bff2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 0
+  layer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &1623417197
 GameObject:
   m_ObjectHideFlags: 0

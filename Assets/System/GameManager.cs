@@ -20,6 +20,7 @@ public class GameManager
     }
 
     public static ChefController CHEF_CONTROLLER;
+    public static AhliController AHLI_CONTROLLER;
     public static PlatingController PLATING_CONTROLLER;
     public static NPCContoller NPC_CONTROLLER;
     public static Dictionary<string, int> GOAL_MENUS = new Dictionary<string, int>();
