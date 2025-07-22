@@ -16,6 +16,10 @@ public class DraggableIngredient : MonoBehaviour, IBeginDragHandler, IDragHandle
     public delegate void IngredientDroppedHandler(GameObject ingredient, bool wasDestroyed);
     public static event IngredientDroppedHandler OnIngredientDropped;
 
+    private void Awake() {
+        interactorLayer = LayerMask.GetMask("Interactor");
+    }
+
     void Start()
     {
         mainCamera = Camera.main;
@@ -78,6 +82,8 @@ public class DraggableIngredient : MonoBehaviour, IBeginDragHandler, IDragHandle
             else
             {
                 transform.position = hit.collider.transform.position;
+                originalPosition = transform.position;
+                transform.parent = hit.collider.transform;
                 targetPosition = transform.position; // Sync target to avoid drift
                 OnIngredientDropped?.Invoke(gameObject, false);
                 Debug.Log($"{name} placed in drop zone at {transform.position}");
