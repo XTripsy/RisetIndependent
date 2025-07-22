@@ -13,10 +13,15 @@ public class CookingManager : MonoBehaviour
 {
     [SerializeField] private CookingType cookingType;
     [SerializeField] private CookingBehaviorBase cookingBehavior;
+    [SerializeField] private LayerMask interactableLayer;
 
     private void OnEnable()
     {
         DraggableIngredient.OnIngredientDropped += HandleIngredientDropped;
+    }
+
+    private void Awake() {
+        interactableLayer = LayerMask.GetMask("Interactable");
     }
 
     private void OnDisable()
@@ -30,8 +35,10 @@ public class CookingManager : MonoBehaviour
 
         // Check if the ingredient was dropped on this cookingware
         Vector2 dropPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(dropPoint, Vector2.zero);
-        if (hit.collider != null && hit.collider.gameObject == gameObject)
+        RaycastHit2D hit = Physics2D.Raycast(dropPoint, Vector2.zero, Mathf.Infinity, interactableLayer);
+        Debug.Log(hit.collider);
+        
+        if (hit.collider != null)
         {
             if (cookingBehavior != null && cookingBehavior.CookingType == cookingType)
             {
