@@ -14,6 +14,7 @@ public class CookingManager : MonoBehaviour
     [SerializeField] private CookingType cookingType;
     [SerializeField] private CookingBehaviorBase cookingBehavior;
     [SerializeField] private LayerMask interactableLayer;
+    //helos
 
     private void OnEnable()
     {

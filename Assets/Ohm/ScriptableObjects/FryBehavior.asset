@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2de241ee1657384d914064ab44bfc0e, type: 3}
-  m_Name: BoilBehavior
+  m_Name: FryBehavior
   m_EditorClassIdentifier: 
-  cookingType: 0
-  cookTime: 2.89
-  cookedColor: {r: 0.18823528, g: 0.5322215, b: 0.9254902, a: 1}
+  cookingType: 2
+  cookTime: 2
+  cookedColor: {r: 0.9074361, g: 0.9150943, b: 0.34877178, a: 1}
